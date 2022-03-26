@@ -10,11 +10,12 @@ export default function Sessoes(){
     const [horarios, setHorarios] = useState([]);
 
 
+
     useEffect(() => {
     const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`)
     promise.then((resposta) => {
-        console.log(resposta.data.days)
         setHorarios(resposta.data.days)
+        Rodape(resposta.data);
     })
     promise.catch()
 }, []);
@@ -24,8 +25,9 @@ export default function Sessoes(){
             <TopoSessao>
                 <p>Selecione o horário</p>
             </TopoSessao>
+            <Data>
             {horarios.map(horario =>
-                <Data>
+            <>
                     <p>{horario.weekday} - {horario.date}</p>
                     <div>
                         {horario.showtimes.map(sessao=>
@@ -34,15 +36,17 @@ export default function Sessoes(){
                         </Link>
                             )}
                     </div>
-                </Data>
+            </>
             )}
-            <Rodape></Rodape>
+            </Data>
+            <Rodape/>
         </>
 
     )
 }
 
 const Data = styled.div`
+margin-bottom: 117px;
 p{
     display: flex;
     align-items: center;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Rodape from './Rodape';
 
 export default function Filmes() {
     const [filmes, setFilmes] = useState([]);
@@ -15,7 +16,6 @@ export default function Filmes() {
         })
         promise.catch()
     }, []);
-
 
     return (
         <>
