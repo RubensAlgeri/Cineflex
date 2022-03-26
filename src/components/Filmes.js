@@ -1,31 +1,36 @@
 import axios from 'axios';
 import styled from 'styled-components';
 import React from 'react';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Filmes(){
+export default function Filmes() {
     const [filmes, setFilmes] = useState([]);
+    const [idFilme, setIdFilme] = useState('');
 
-    useEffect(()=>{
-    const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
-    promise.then((resposta)=>{
-        setFilmes(resposta.data)
-    })
-    promise.catch()
-    },[]);
+    useEffect(() => {
+        const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
+        promise.then((resposta) => {
+            setFilmes(resposta.data)
+        })
+        promise.catch()
+    }, []);
 
-    return(
+
+    return (
         <>
-        <TopoFilme>
-            <p>Selecione o filme</p>
-        </TopoFilme>
-        <Posters>
-            {filmes.map(filme=>
-                <Poster>
-                    <img src={filme.posterURL} alt={filme.title}/>
-                </Poster>
-            )}
-        </Posters>
+            <TopoFilme>
+                <p>Selecione o filme</p>
+            </TopoFilme>
+            <Posters>
+                {filmes.map(filme =>
+                <Link to={`/filme/${filme.id}`}>
+                    <Poster >
+                        <img src={filme.posterURL} alt={filme.title} />
+                    </Poster>
+                </Link>
+                )}
+            </Posters>
         </>
 
     )
@@ -39,15 +44,15 @@ const Posters = styled.div`
 `
 
 const Poster = styled.div`
-display: flex;
-margin-bottom: 11px;
-justify-content: center;
-align-items: center;
-width: 145px;
-height: 209px;
-background: #FFFFFF;
-box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
-border-radius: 3px;
+    display: flex;
+    margin-bottom: 11px;
+    justify-content: center;
+    align-items: center;
+    width: 145px;
+    height: 209px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
 img{
     width: 129px;
     height: 193px;
@@ -55,12 +60,12 @@ img{
 `
 
 const TopoFilme = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100vw;
-height: 110px;
-top: 67px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 110px;
+    margin-top: 67px;
 p{
     font-family: 'Roboto';
     font-style: normal;
