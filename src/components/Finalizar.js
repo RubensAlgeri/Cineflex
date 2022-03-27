@@ -9,11 +9,11 @@ import Sucesso from './Sucesso';
 export default function Finalizar(){
     const { idSessao } = useParams();
     const [assentos, setAssentos] = useState([]);
-    const [selecionado, setSelecionado] = useState("disponivel");
     const [nome, setNome] = useState('');
     const [CPF, setCPF] = useState('')
     const [ids, setIds] = useState([])
     const [data, setData] = useState([]);
+    const [numeroCadeiras, setNumeroCadeiras] = useState([]);
     const navigate = useNavigate();
 
     
@@ -27,23 +27,27 @@ export default function Finalizar(){
     promise.catch()
 }, []);
 
-    function escolhiAssento(selecionado, id){
-        if(selecionado === "disponivel") setSelecionado('selecionado')
-        else{
-            setSelecionado('disponivel')
-        }
+    function escolhiAssento(selecionado, id, numeroCadeira){
+        assentos[id*1-1].selecionado = selecionado;
+        console.log("assento ",assentos[id*1-1])
+
         if(ids.length>0 && ids.join(' ').includes(id))setIds(ids.filter(ids=>{return ids!=id}));
         else{
             setIds([...ids, id]);
         }
+        if(numeroCadeiras.length>0 && numeroCadeiras.join(' ').includes(numeroCadeira))setNumeroCadeiras(numeroCadeiras.filter(numeroCadeiras=>{return numeroCadeiras!=numeroCadeira}));
+        else{
+            setNumeroCadeiras([...numeroCadeiras, numeroCadeira]);
+        }
     }
-    console.log("ids ", ids, 'data ')
+    console.log("ids ", ids, 'numeroCadeiras ', numeroCadeiras)
     
     function fazerLogin (event) {
         console.log("ids ", ids)
         event.preventDefault();
+        if(nome!==''&& CPF.length>=11 && ids.length!==0){
 		const requisicao = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {
-            ids: ids,
+            ids: numeroCadeiras,
             name: nome,
             cpf: CPF
         });
@@ -54,19 +58,23 @@ export default function Finalizar(){
         })
     })
 	}
+}
 
     return(
         <>
             <TopoFinalizar>
                 <p>Selecione o(s) assento(s)</p>
             </TopoFinalizar>
-            <Assentos escolhido={selecionado.selecionado}>
+            <Assentos >
                 {assentos.map(assento =>
                 <>
-                    {assento.isAvailable?
-                        <p className={selecionado} onClick={()=>escolhiAssento(selecionado, assento.name)}>{assento.name}</p>
-                        :
+                    {!assento.isAvailable?
                         <p className="indisponivel" >{assento.name}</p>
+                        : assento.selecionado?
+                        <p className="selecionado" onClick={()=>escolhiAssento(!assento.selecionado, assento.name, assento.id)}>{assento.name}</p>
+                        :
+                        <p className="disponivel" onClick={()=>escolhiAssento(!assento.selecionado, assento.name, assento.id)}>{assento.name}</p>
+
                     }
                 </>
                 )}

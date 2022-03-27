@@ -48,6 +48,9 @@ export default function Sessoes(){
 
 const Data = styled.div`
 margin-bottom: 117px;
+a{
+    text-decoration: none;
+}
 p{
     display: flex;
     align-items: center;
