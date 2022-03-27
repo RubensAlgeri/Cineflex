@@ -7,7 +7,6 @@ import Rodape from './Rodape';
 
 export default function Filmes() {
     const [filmes, setFilmes] = useState([]);
-    const [idFilme, setIdFilme] = useState('');
 
     useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");

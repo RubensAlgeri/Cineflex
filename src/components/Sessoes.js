@@ -8,6 +8,7 @@ import Rodape from './Rodape';
 export default function Sessoes(){
     const { idFilme } = useParams();
     const [horarios, setHorarios] = useState([]);
+    const [infos, setInfos] = useState([]);
 
 
 
@@ -15,7 +16,7 @@ export default function Sessoes(){
     const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`)
     promise.then((resposta) => {
         setHorarios(resposta.data.days)
-        Rodape(resposta.data);
+        setInfos(resposta.data)
     })
     promise.catch()
 }, []);
@@ -39,7 +40,7 @@ export default function Sessoes(){
             </>
             )}
             </Data>
-            <Rodape/>
+            <Rodape info={infos}/>
         </>
 
     )

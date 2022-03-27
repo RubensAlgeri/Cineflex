@@ -5,15 +5,17 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Rodape(info){
-    const {posterURL, title} = info;
-    console.log('rodape ', posterURL, title)
-    return(
+    console.log('rodape ', info !== [])
+    return info.posterURL !== undefined ?(
         <Footer>
             <div>
-                <img src={posterURL} alt={title} />
+                <img src={info.posterURL} alt={info.title} />
             </div>
-            <p>{title}</p>
+            <p>{info.title}</p>
+            <p>{info.days.weekday} - {info.days.date}</p>
         </Footer>
+    ):(
+        <></>
     )
 }
 const Footer = styled.div`
