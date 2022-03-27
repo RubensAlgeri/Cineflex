@@ -5,7 +5,6 @@ import React from 'react';
 export default function Rodape(infos){
     const{info} = infos;
     const {titulo, poster, horario, diaSemana} = info
-    console.log('rodape ', titulo, poster)
     return (
         <Footer>
         <div>

@@ -26,34 +26,29 @@ export default function Finalizar(){
         setInfos({titulo: resposta.data.movie.title, poster: resposta.data.movie.posterURL, horario: resposta.data.name, diaSemana: resposta.data.day.weekday})
     })
     promise.catch()
-}, []);
+}, [idSessao]);
 
     function escolhiAssento(selecionado, id, numeroCadeira){
         assentos[id*1-1].selecionado = selecionado;
-        console.log("assento ",assentos[id*1-1])
 
-        if(ids.length>0 && ids.join(' ').includes(id))setIds(ids.filter(ids=>{return ids!=id}));
+        if(ids.length>0 && ids.join(' ').includes(id))setIds(ids.filter(ids=>{return ids!==id}));
         else{
             setIds([...ids, id]);
         }
-        if(numeroCadeiras.length>0 && numeroCadeiras.join(' ').includes(numeroCadeira))setNumeroCadeiras(numeroCadeiras.filter(numeroCadeiras=>{return numeroCadeiras!=numeroCadeira}));
+        if(numeroCadeiras.length>0 && numeroCadeiras.join(' ').includes(numeroCadeira))setNumeroCadeiras(numeroCadeiras.filter(numeroCadeiras=>{return numeroCadeiras!==numeroCadeira}));
         else{
             setNumeroCadeiras([...numeroCadeiras, numeroCadeira]);
         }
     }
-    console.log("ids ", ids, 'numeroCadeiras ', numeroCadeiras, 'data ', infos)
-    
     function fazerLogin (event) {
-        console.log("ids ", ids)
         event.preventDefault();
-        if(nome!==''&& CPF.length==14 && ids.length!==0){
+        if(nome!==''&& CPF.length===14 && ids.length!==0){
 		const requisicao = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {
             ids: numeroCadeiras,
             name: nome,
             cpf: CPF
         });
         requisicao.then(()=>{
-            console.log("certo ", nome, CPF, ids)
             navigate("/sucesso", {
             state: {nome: nome, cpf: CPF, ids:ids, data: data},
         })
@@ -121,6 +116,7 @@ export default function Finalizar(){
 
 const Entradas = styled.div`
 margin-top: 42px;
+margin-bottom: 167px;
 display: flex;
 justify-content: center;
 p{

@@ -17,9 +17,8 @@ export default function Sessoes(){
         setInfos({titulo:resposta.data.title, poster:resposta.data.posterURL})
     })
     promise.catch()
-}, []);
-    console.log("sessoes", infos!='')
-    return infos!=''?(
+}, [idFilme]);
+    return infos!==''?(
         <>
             <TopoSessao>
                 <p>Selecione o horário</p>

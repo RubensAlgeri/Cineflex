@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 export default function Sucesso(){
     const { state } = useLocation();
     const {nome, cpf, ids, data} = state;
-    console.log("sucesso ",nome, cpf, ids, data.day)
 
     return(
         <Confirmacao>
