@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Rodape from './Rodape';
 import Sucesso from './Sucesso';
+import {cpfMask} from "./Mask"
 
 export default function Finalizar(){
     const { idSessao } = useParams();
@@ -45,7 +46,7 @@ export default function Finalizar(){
     function fazerLogin (event) {
         console.log("ids ", ids)
         event.preventDefault();
-        if(nome!==''&& CPF.length>=11 && ids.length!==0){
+        if(nome!==''&& CPF.length==14 && ids.length!==0){
 		const requisicao = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {
             ids: numeroCadeiras,
             name: nome,
@@ -106,7 +107,7 @@ export default function Finalizar(){
                     <input 
                         type="text" 
                         placeholder='Digite seu CPF...'
-                        onChange={e => setCPF(e.target.value)}
+                        onChange={e => setCPF(cpfMask(e.target.value))}
                         value={CPF}
                         required
                     ></input>
