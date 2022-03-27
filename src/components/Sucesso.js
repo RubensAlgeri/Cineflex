@@ -13,14 +13,14 @@ export default function Sucesso(){
             <div>
                 <p className='titulo'>Filme e sessão</p>
                 <p className='info'>{data.movie.title}</p>
-                <p className='info'>{data.day.date+ " "+ data.name}</p>
+                <p className='info'>{data.day.date + " " + data.name}</p>
                 <p className='titulo'>Ingressos</p>
-                {ids.map(id=>{
-                    <p className='info'>Assento {id}</p>
+                {ids.sort((a, b)=>{return a-b}).map(id=>{
+                    return (<p className='info'>Assento {id}</p>)
                 })}
                 <p className='titulo'>Comprador</p>
                 <p className='info'>Nome: {nome}</p>
-                <p className='info'>Cpf: {cpf}</p>
+                <p className='info'>CPF: {cpf}</p>
             </div>
             <Link to="/">
                 <p>Voltar pra Home</p>
