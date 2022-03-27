@@ -4,22 +4,18 @@ import React from 'react';
 
 export default function Rodape(infos){
     const{info} = infos;
-    const {titulo, poster, data, diaSemana} = info
+    const {titulo, poster, horario, diaSemana} = info
     console.log('rodape ', titulo, poster)
-    return data !== ''?(
-        <Footer>
-            <div>
-                <img src={poster} alt={titulo} />
-            </div>
-            <p>{titulo}</p>
-        </Footer>
-    ):(
+    return (
         <Footer>
         <div>
             <img src={poster} alt={titulo} />
         </div>
+        {horario?
+        <p>{titulo}<br/>{diaSemana} - {horario}</p>
+        :
         <p>{titulo}</p>
-        <p>{diaSemana} - {data}</p>
+        }
     </Footer>
     )
 }
@@ -59,5 +55,8 @@ p{
     align-items: center;
 
     color: #293845;
+}
+small{
+
 }
 `

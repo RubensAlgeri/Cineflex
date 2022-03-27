@@ -15,6 +15,7 @@ export default function Finalizar(){
     const [ids, setIds] = useState([])
     const [data, setData] = useState([]);
     const [numeroCadeiras, setNumeroCadeiras] = useState([]);
+    const [infos, setInfos] = useState([]);
     const navigate = useNavigate();
 
     
@@ -23,6 +24,7 @@ export default function Finalizar(){
     promise.then((resposta) => {
         setAssentos(resposta.data.seats);
         setData(resposta.data);
+        setInfos({titulo: resposta.data.movie.title, poster: resposta.data.movie.posterURL, horario: resposta.data.name, diaSemana: resposta.data.day.weekday})
     })
     promise.catch()
 }, []);
@@ -40,7 +42,7 @@ export default function Finalizar(){
             setNumeroCadeiras([...numeroCadeiras, numeroCadeira]);
         }
     }
-    console.log("ids ", ids, 'numeroCadeiras ', numeroCadeiras)
+    console.log("ids ", ids, 'numeroCadeiras ', numeroCadeiras, 'data ', infos)
     
     function fazerLogin (event) {
         console.log("ids ", ids)
@@ -113,7 +115,7 @@ export default function Finalizar(){
                     <button type="submit">Reservar assento(s)</button>
                 </form>
             </Entradas>
-            <Rodape info={}></Rodape>
+            <Rodape info={infos}></Rodape>
         </>
     )
 }

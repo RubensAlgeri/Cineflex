@@ -1,9 +1,6 @@
-import axios from 'axios';
 import styled from 'styled-components';
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { Link, useParams, useLocation } from "react-router-dom";
-import Rodape from './Rodape';
+import { Link, useLocation } from "react-router-dom";
 
 export default function Sucesso(){
     const { state } = useLocation();
