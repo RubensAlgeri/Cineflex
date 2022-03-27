@@ -2,21 +2,26 @@ import axios from 'axios';
 import styled from 'styled-components';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Rodape from './Rodape';
+import Sucesso from './Sucesso';
 
 export default function Finalizar(){
     const { idSessao } = useParams();
     const [assentos, setAssentos] = useState([]);
     const [selecionado, setSelecionado] = useState("disponivel");
-    const [comprador, setComprador] = useState([]);
-    let ids = [];
+    const [nome, setNome] = useState('');
+    const [CPF, setCPF] = useState('')
+    const [ids, setIds] = useState([])
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
     
     useEffect(() => {
     const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`)
     promise.then((resposta) => {
-        setAssentos(resposta.data.seats)
+        setAssentos(resposta.data.seats);
+        setData(resposta.data);
         Rodape(resposta.data);
     })
     promise.catch()
@@ -27,22 +32,26 @@ export default function Finalizar(){
         else{
             setSelecionado('disponivel')
         }
-        if(ids.join('').includes(id))ids.push(id);
+        if(ids.length>0 && ids.join(' ').includes(id))setIds(ids.filter(ids=>{return ids!=id}));
         else{
-            ids = ids.join(' ').replace(id, "").split(" ");
+            setIds([...ids, id]);
         }
     }
-
+    console.log("ids ", ids, 'data ')
+    
     function fazerLogin (event) {
-		event.preventDefault();
-
-		const requisicao = axios.post("https://minha-api.com/login", {
+        console.log("ids ", ids)
+        event.preventDefault();
+		const requisicao = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {
             ids: ids,
-            name: comprador.nome,
-            cpf: comprador.cpf
+            name: nome,
+            cpf: CPF
         });
         requisicao.then(()=>{
-        <Link to="/sucesso"></Link>
+            console.log("certo ", nome, CPF, ids)
+            navigate("/sucesso", {
+            state: {nome: nome, cpf: CPF, ids:ids, data: data},
+        })
     })
 	}
 
@@ -55,7 +64,7 @@ export default function Finalizar(){
                 {assentos.map(assento =>
                 <>
                     {assento.isAvailable?
-                        <p className={selecionado} onClick={()=>escolhiAssento(selecionado, assento.id)}>{assento.name}</p>
+                        <p className={selecionado} onClick={()=>escolhiAssento(selecionado, assento.name)}>{assento.name}</p>
                         :
                         <p className="indisponivel" >{assento.name}</p>
                     }
@@ -80,8 +89,8 @@ export default function Finalizar(){
                     <input 
                     type="text" 
                     placeholder='Digite seu nome...'
-                    onChange={e => setComprador({nome: e.target.value})}
-                    value={comprador.nome}
+                    onChange={e => setNome(e.target.value)}
+                    value={nome}
                     required
                     ></input>
 
@@ -89,8 +98,8 @@ export default function Finalizar(){
                     <input 
                         type="text" 
                         placeholder='Digite seu CPF...'
-                        onChange={e => setComprador({CPF: e.target.value})}
-                        value={comprador.CPF}
+                        onChange={e => setCPF(e.target.value)}
+                        value={CPF}
                         required
                     ></input>
                     <button type="submit">Reservar assento(s)</button>
