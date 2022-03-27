@@ -1,21 +1,26 @@
-import axios from 'axios';
 import styled from 'styled-components';
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
-export default function Rodape(info){
-    console.log('rodape ', info !== [])
-    return info.posterURL !== undefined ?(
+
+export default function Rodape(infos){
+    const{info} = infos;
+    const {titulo, poster, data, diaSemana} = info
+    console.log('rodape ', titulo, poster)
+    return data !== ''?(
         <Footer>
             <div>
-                <img src={info.posterURL} alt={info.title} />
+                <img src={poster} alt={titulo} />
             </div>
-            <p>{info.title}</p>
-            <p>{info.days.weekday} - {info.days.date}</p>
+            <p>{titulo}</p>
         </Footer>
     ):(
-        <></>
+        <Footer>
+        <div>
+            <img src={poster} alt={titulo} />
+        </div>
+        <p>{titulo}</p>
+        <p>{diaSemana} - {data}</p>
+    </Footer>
     )
 }
 const Footer = styled.div`

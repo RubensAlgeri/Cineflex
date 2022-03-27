@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Rodape from './Rodape';
 import Sucesso from './Sucesso';
 import {cpfMask} from "./Mask"
+import Rodape from './Rodape';
 
 export default function Finalizar(){
     const { idSessao } = useParams();
@@ -23,7 +23,6 @@ export default function Finalizar(){
     promise.then((resposta) => {
         setAssentos(resposta.data.seats);
         setData(resposta.data);
-        Rodape(resposta.data);
     })
     promise.catch()
 }, []);
@@ -114,6 +113,7 @@ export default function Finalizar(){
                     <button type="submit">Reservar assento(s)</button>
                 </form>
             </Entradas>
+            <Rodape info={}></Rodape>
         </>
     )
 }

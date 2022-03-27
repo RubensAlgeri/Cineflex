@@ -10,18 +10,16 @@ export default function Sessoes(){
     const [horarios, setHorarios] = useState([]);
     const [infos, setInfos] = useState([]);
 
-
-
     useEffect(() => {
     const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`)
     promise.then((resposta) => {
         setHorarios(resposta.data.days)
-        setInfos(resposta.data)
+        setInfos({titulo:resposta.data.title, poster:resposta.data.posterURL})
     })
     promise.catch()
 }, []);
-
-    return(
+    console.log("sessoes", infos!='')
+    return infos!=''?(
         <>
             <TopoSessao>
                 <p>Selecione o horário</p>
@@ -43,6 +41,10 @@ export default function Sessoes(){
             <Rodape info={infos}/>
         </>
 
+    )
+    :
+    (
+        <></>
     )
 }
 
