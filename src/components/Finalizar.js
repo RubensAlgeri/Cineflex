@@ -14,7 +14,7 @@ export default function Finalizar(){
     const [ids, setIds] = useState([])
     const [data, setData] = useState([]);
     const [numeroCadeiras, setNumeroCadeiras] = useState([]);
-    const [infos, setInfos] = useState([]);
+    const [infosRodape, setInfosRodape] = useState([]);
     const navigate = useNavigate();
 
     
@@ -23,9 +23,9 @@ export default function Finalizar(){
     promise.then((resposta) => {
         setAssentos(resposta.data.seats);
         setData(resposta.data);
-        setInfos({titulo: resposta.data.movie.title, poster: resposta.data.movie.posterURL, horario: resposta.data.name, diaSemana: resposta.data.day.weekday})
+        setInfosRodape({titulo: resposta.data.movie.title, poster: resposta.data.movie.posterURL, horario: resposta.data.name, diaSemana: resposta.data.day.weekday})
     })
-    promise.catch()
+    promise.catch(()=>{alert('Erro, tente novamente mais tarde')})
 }, [idSessao]);
 
     function escolhiAssento(selecionado, id, numeroCadeira){
@@ -40,7 +40,7 @@ export default function Finalizar(){
             setNumeroCadeiras([...numeroCadeiras, numeroCadeira]);
         }
     }
-    function fazerLogin (event) {
+    function finalizar (event) {
         event.preventDefault();
         if(nome!==''&& CPF.length===14 && ids.length!==0){
 		const requisicao = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {
@@ -88,7 +88,7 @@ export default function Finalizar(){
                 </div>
             </Assentos>
             <Entradas>
-                <form onSubmit={fazerLogin}>
+                <form onSubmit={finalizar}>
                     <p>Nome do comprador:</p>
                     <input 
                     type="text" 
@@ -109,7 +109,7 @@ export default function Finalizar(){
                     <button type="submit">Reservar assento(s)</button>
                 </form>
             </Entradas>
-            <Rodape info={infos}></Rodape>
+            <Rodape info={infosRodape}></Rodape>
         </>
     )
 }
@@ -169,7 +169,6 @@ border-radius: 3px;
 
 }
 `
-
 const Assentos = styled.div`
 display: flex;
 flex-wrap: wrap;

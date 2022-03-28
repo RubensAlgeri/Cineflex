@@ -8,17 +8,17 @@ import Rodape from './Rodape';
 export default function Sessoes(){
     const { idFilme } = useParams();
     const [horarios, setHorarios] = useState([]);
-    const [infos, setInfos] = useState([]);
+    const [infosRodape, setInfosRodape] = useState([]);
 
     useEffect(() => {
     const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`)
     promise.then((resposta) => {
         setHorarios(resposta.data.days)
-        setInfos({titulo:resposta.data.title, poster:resposta.data.posterURL})
+        setInfosRodape({titulo:resposta.data.title, poster:resposta.data.posterURL})
     })
-    promise.catch()
+    promise.catch(()=>{alert('Erro, tente novamente mais tarde')})
 }, [idFilme]);
-    return infos!==''?(
+    return infosRodape!==''?(
         <>
             <TopoSessao>
                 <p>Selecione o horário</p>
@@ -37,7 +37,7 @@ export default function Sessoes(){
             </>
             )}
             </Data>
-            <Rodape info={infos}/>
+            <Rodape info={infosRodape}/>
         </>
 
     )

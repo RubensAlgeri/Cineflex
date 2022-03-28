@@ -12,7 +12,7 @@ export default function Filmes() {
         promise.then((resposta) => {
             setFilmes(resposta.data)
         })
-        promise.catch()
+        promise.catch(()=>{alert('Erro, tente novamente mais tarde')})
     }, []);
 
     return (
