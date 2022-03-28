@@ -120,7 +120,6 @@ margin-bottom: 167px;
 display: flex;
 justify-content: center;
 p{
-    margin-top: 7px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 18px;
